@@ -1,8 +1,5 @@
 package com.example.datajpaexample.entities;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Set;
@@ -16,13 +13,13 @@ public class Car {
 
     private String brand;
     private String model;
-
-    @JsonFormat(pattern = "dd.MM.yyyy")
-    @DateTimeFormat(pattern = "dd.MM.yyyy")
     private LocalDate registration;
 
     @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Payments> payments;
+
+    @Version
+    private Long version;
 
     public Car() {
     }
@@ -80,6 +77,14 @@ public class Car {
         this.payments = payments;
     }
 
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
     @Override
     public String toString() {
         return "Car{" +
@@ -88,6 +93,7 @@ public class Car {
                 ", model='" + model + '\'' +
                 ", registration=" + registration +
                 ", payments=" + payments +
+                ", version=" + version +
                 '}';
     }
 }
